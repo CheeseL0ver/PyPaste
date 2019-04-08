@@ -1,10 +1,10 @@
 #!/usr/local/bin/python3.7
 
-import sys, requests
+import sys, os, requests
 
 class Main():
     text = ''
-    PASTEBIN_DEV_KEY = ''
+    PASTEBIN_DEV_KEY = os.getenv('PASTEBIN_DEV_KEY')
 
     def readStdin(self):
         if not sys.stdin.isatty():
@@ -12,15 +12,14 @@ class Main():
                 self.text += line
 
     def post(self):
-        payload = {'api_option': 'paste', 'api_dev_key': self.PASTEBIN_DEV_KEY, 'api_paste_code': self.text}
-        r = requests.post('https://pastebin.com/api/api_post.php', data=payload)
-        print(r.text)
+        if self.text != '' and self.PASTEBIN_DEV_KEY != None:
+            payload = {'api_option': 'paste', 'api_dev_key': self.PASTEBIN_DEV_KEY, 'api_paste_code': self.text}
+            r = requests.post('https://pastebin.com/api/api_post.php', data=payload)
+            print("The provided text is now hosted at the following URL {}".format(r.text))
 
     def main(self):
         self.readStdin()
-        if self.text != '':
-            #print (self.text)
-            self.post()
+        self.post()
 
 if __name__ == '__main__':
     Main().main()
