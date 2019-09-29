@@ -4,6 +4,7 @@ import sys, os, requests
 
 PASTEBIN_DEV_KEY = os.getenv('PASTEBIN_DEV_KEY')
 
+
 def requestError(response):
     if 'Bad API request' in response:
         return True
@@ -14,6 +15,7 @@ def readStdin():
     if not sys.stdin.isatty():
         for line in sys.stdin:
            text += line
+    print("INPUT: %s" % text)
 
     return text
 
