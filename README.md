@@ -1,10 +1,10 @@
 # PyPaste
 #### A Python based [Pastebin](https://pastebin.com/) "CLI" tool
 
-##Overview
+## Overview
 Creates a paste on Pastebin for a given input. 
 
-##Installation
+## Installation
 After cloning the repo simply run:
 
 ```
