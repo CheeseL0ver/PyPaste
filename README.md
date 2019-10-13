@@ -5,7 +5,7 @@
 ##Overview
 Creates a paste on Pastebin that contains the input of what was passed from stdout.
 
-##Installation
+## Installation
 After cloning the repo simply run:
 
 ```
