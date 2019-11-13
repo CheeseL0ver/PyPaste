@@ -2,7 +2,7 @@
 
 #### A Python based [Pastebin](https://pastebin.com/) "CLI" tool
 
-##Overview
+## Overview
 Creates a paste on Pastebin that contains the input of what was passed from stdout.
 
 ## Installation
