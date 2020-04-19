@@ -1,4 +1,4 @@
-# PyPaste
+# PyPaste [![Build Status](https://travis-ci.org/CheeseL0ver/PyPaste.svg?branch=master)](https://travis-ci.org/github/CheeseL0ver/PyPaste)
 
 #### A Python based [Pastebin](https://pastebin.com/) "CLI" tool
 
