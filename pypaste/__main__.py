@@ -26,8 +26,10 @@ def post():
         r = requests.post('https://pastebin.com/api/api_post.php', data=payload)
         if requestError(r.text):
             print ("An error occured: {}".format(r.text))
-            return
+            return 1
         print("The provided text is now hosted at the following URL {}".format(r.text))
+        return 0
+    return 1
 
 def generateUserKey(user, password):
     payload = {'api_dev_key': PASTEBIN_DEV_KEY, 'api_user_name': user, 'api_user_password': password}
