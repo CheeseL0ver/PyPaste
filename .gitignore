@@ -1,3 +1,4 @@
 Pypaste.egg-info/
 pypaste/__pycache__/
 *.swp
+Dockerfile
