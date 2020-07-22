@@ -1,9 +1,27 @@
 #!/usr/bin/python3.7
 
-import sys, os, requests
+import sys, os, requests, argparse
 
 PASTEBIN_DEV_KEY = os.getenv('PASTEBIN_DEV_KEY')
 
+def paramParse():
+    parser = argparse.ArgumentParser(description='Optional params for Pastebin Pastes')
+    parser.add_argument('-t', '--title', help='Title/Name of the paste')
+    parser.add_argument('-e', '--expire', help='Time until paste expiration (default is 10 minutes)')
+    parser.add_argument('-v', '--visibility', help='Visibility of paste public=0 unlisted=1 private=2 (default is 0)')
+    args = parser.parse_args()
+    return args
+
+def generatePayload(text):
+    args = paramParse()
+    payload = {'api_option': 'paste', 
+               'api_dev_key': PASTEBIN_DEV_KEY,
+               'api_paste_code': text,
+               'api_paste_expire_date': args.expire or '10M',
+               'api_paste_name': args.title or '',
+               'api_paste_private': args.visibility or '0'
+               }
+    return payload
 
 def requestError(response):
     if 'Bad API request' in response:
@@ -19,17 +37,13 @@ def readStdin():
 
     return text
 
-def post():
-    text = readStdin()
-    if text != '' and PASTEBIN_DEV_KEY != None:
-        payload = {'api_option': 'paste', 'api_dev_key': PASTEBIN_DEV_KEY, 'api_paste_code': text, 'api_paste_expire_date': '10M'}
-        r = requests.post('https://pastebin.com/api/api_post.php', data=payload)
-        if requestError(r.text):
-            print ("An error occured: {}".format(r.text))
-            return 1
-        print("The provided text is now hosted at the following URL {}".format(r.text))
-        return 0
-    return 1
+def post(payload):
+    r = requests.post('https://pastebin.com/api/api_post.php', data=payload)
+    if requestError(r.text):
+        print ("An error occured: {}".format(r.text))
+        return 1
+    print("The provided text is now hosted at the following URL {}".format(r.text))
+    return 0
 
 def generateUserKey(user, password):
     payload = {'api_dev_key': PASTEBIN_DEV_KEY, 'api_user_name': user, 'api_user_password': password}
@@ -37,10 +51,14 @@ def generateUserKey(user, password):
     if requestError(r.text):
         print ("An error occured: {}".format(r.text))
         return
-    #r.text is the user key, store it securely in keychain
 
 def main():
-    post()
+    text = readStdin()
+    if text != '' and PASTEBIN_DEV_KEY != None:
+        payload = generatePayload(text)
+        post(payload)
+        return 0
+    return 1
 
 if __name__ == '__main__':
     main()
